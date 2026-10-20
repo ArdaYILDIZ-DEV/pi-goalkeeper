@@ -6,7 +6,7 @@ a GitHub Release has been published.
 
 ## 0.1.0
 
-Initial release preparation:
+Initial release:
 
 - Bounded, branch-local goal continuation for Pi 1.3.0 with explicit pause,
   resume, edit and clear commands and compatible goal tools/session identifiers.
