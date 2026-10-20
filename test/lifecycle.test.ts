@@ -216,3 +216,22 @@ test("busy commands never leave stale continuations in Pi queues", async () => {
 	await h.command("pause");
 	assert.equal(h.sent.filter(item => (item as { customType?: string }).customType === "goal-continuation").length, 0);
 });
+
+test("delayed command dialogs cannot edit or replace a newer goal", async () => {
+	for (const command of ["edit", "Replacement from old dialog"]) {
+		const h = harness();
+		await h.tool("create_goal", { objective: "Old goal" });
+		Object.assign(h.ctx, { hasUI: true });
+		const replaceWhileWaiting = async () => {
+			await h.command("clear");
+			await h.tool("create_goal", { objective: "Newer goal" });
+		};
+		Object.assign(h.ctx.ui, {
+			theme: { fg: (_color: string, text: string) => text },
+			editor: async () => { await replaceWhileWaiting(); return "Stale edit"; },
+			confirm: async () => { await replaceWhileWaiting(); return true; },
+		});
+		await h.command(command);
+		assert.equal((await h.status()).objective, "Newer goal", command);
+	}
+});

@@ -12,8 +12,9 @@ Initial release preparation:
   resume, edit and clear commands and compatible goal tools/session identifiers.
 - Validated session snapshots, response/token accounting, cancellation handling,
   and up to ten extra error retries after Pi recovery.
-- TypeScript entry point at `src/index.ts`, pure state and prompt helpers, and
-  isolated TUI footer/timer ownership.
+- Minimal TypeScript entry point at `src/index.ts`, separate command and tool
+  registration, session-owned lifecycle/accounting/persistence, pure state and
+  prompt helpers, and isolated TUI footer/timer ownership.
 - Unit, lifecycle and isolated Pi SDK regressions, including packed-source loading.
 - English user/contributor documentation, Git-based distribution, automated checks
   and a manually triggered, version-checked GitHub Release workflow. No npm publishing.

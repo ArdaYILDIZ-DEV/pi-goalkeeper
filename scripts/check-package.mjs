@@ -7,7 +7,7 @@ import { join, resolve } from "node:path";
 const temp = mkdtempSync(join(tmpdir(), "goalkeeper-package-"));
 try {
 	const [pack] = JSON.parse(execFileSync("npm", ["pack", "--json", "--ignore-scripts", "--pack-destination", temp], { encoding: "utf8" }));
-	const expected = ["package.json", "README.md", "CHANGELOG.md", "LICENSE", "src/index.ts", "src/state.ts", "src/prompts.ts", "src/status.ts"].sort();
+	const expected = ["package.json", "README.md", "CHANGELOG.md", "LICENSE", "src/index.ts", "src/session.ts", "src/commands.ts", "src/tools.ts", "src/state.ts", "src/prompts.ts", "src/status.ts"].sort();
 	assert.deepEqual(pack.files.map(file => file.path).sort(), expected, "Unexpected package contents");
 	const unpacked = join(temp, "unpacked");
 	mkdirSync(unpacked);

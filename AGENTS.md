@@ -4,7 +4,10 @@ Goalkeeper is a TypeScript extension for Pi that provides bounded goal continuat
 
 ## Code layout
 
-- `src/index.ts`: Pi entry point; lifecycle, continuation decisions, commands, tools, and goal orchestration.
+- `src/index.ts`: small Pi entry-point factory wiring `createGoalSession`, `registerGoalCommand`, and `registerGoalTools`.
+- `src/session.ts`: branch-local mutable state, accounting, persistence, lifecycle hooks, retries, and continuation; exposes coherent session operations through the inferred `GoalSession` type.
+- `src/commands.ts`: `/goal` command registration, interactive UI, and replacement confirmation.
+- `src/tools.ts`: model tool schemas and registration.
 - `src/status.ts`: timer and status presentation.
 - `src/state.ts`: state types, saved-record validation/restoration, usage accounting, and retry waits. It must not depend on Pi or the presentation layer.
 - `src/prompts.ts`: user-facing text, tool responses, and model instructions; depends only on the state layer.
@@ -12,7 +15,7 @@ Goalkeeper is a TypeScript extension for Pi that provides bounded goal continuat
 - `test/lifecycle.test.ts`: lifecycle regressions with controlled hook contexts and mock timers.
 - `test/integration.test.ts`: real Pi SDK loader and tool pipeline; isolated sessions/settings/credentials and a fake provider.
 
-Keep dependencies directed from `index` to `status/prompts/state`, and from presentation modules to state as needed. Keep goal orchestration in `src/index.ts`; do not add controller interfaces or new layers merely to make files smaller.
+Keep `src/index.ts` limited to wiring the session factory and command/tool registration. Commands and tools use the session's coherent operations; keep mutable goal state, lifecycle coordination, accounting, persistence, and continuation in `src/session.ts`. Infer `GoalSession` from the factory rather than adding a controller framework or duplicating its interface. Keep state independent of Pi and presentation, and keep `src/prompts.ts` dependent only on state.
 
 ## Development and verification
 

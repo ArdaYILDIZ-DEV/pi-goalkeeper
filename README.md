@@ -101,7 +101,10 @@ npm pack --dry-run
 
 Source layout:
 
-- `src/index.ts`: Pi entry point, lifecycle, tools, commands, goal orchestration, and continuation decisions.
+- `src/index.ts`: small Pi entry-point factory wiring `createGoalSession`, `registerGoalCommand`, and `registerGoalTools`.
+- `src/session.ts`: branch-local mutable state, accounting, persistence, lifecycle hooks, retries, and continuation; exposes coherent session operations through the inferred `GoalSession` type.
+- `src/commands.ts`: `/goal` command registration, interactive UI, and replacement confirmation.
+- `src/tools.ts`: model tool schemas and registration.
 - `src/status.ts`: timer and status presentation.
 - `src/state.ts`: state schema, validation, restoration, usage accounting, and cancellable retry waits.
 - `src/prompts.ts`: presentation text, response formats, and goal/audit instructions.
